@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found · Alaukik Gyan Bhandar</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ─────────────────────────────────────────
+       TOKENS  (exact divine_bg palette)
+    ───────────────────────────────────────── */
+    :root {
+      --void:        #02010a;
+      --navy-deep:   #06051a;
+      --navy:        #0b0a2e;
+      --purple-dark: #1a0a42;
+      --purple:      #2d0f6b;
+      --violet:      #5b1fc8;
+      --violet-sat:  #7c3aed;
+      --glow:        #9b59f7;
+      --gold:        #d4af37;
+      --gold-light:  #f5df80;
+      --text-main:   #ede8ff;
+      --text-muted:  rgba(195, 168, 255, 0.60);
+    }
+
+    html, body {
+      width: 100%; min-height: 100vh; min-height: 100dvh;
+      background: var(--void);
+      overflow-x: hidden; overflow-y: auto;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─────────────────────────────────────────
+       BACKGROUND SYSTEM  (verbatim divine_bg)
+    ───────────────────────────────────────── */
+    .bg-root {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden;
+    }
+
+    .bg-base {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 0%,    #1a0845 0%, transparent 60%),
+        radial-gradient(ellipse 80%  60% at 0%   40%,  #0d0535 0%, transparent 55%),
+        radial-gradient(ellipse 70%  50% at 100% 60%,  #120840 0%, transparent 55%),
+        radial-gradient(ellipse 100% 100% at 50% 100%, #080530 0%, transparent 70%),
+        linear-gradient(175deg, #06051a 0%, #02010a 40%, #04020f 100%);
+    }
+
+    .nebula {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); mix-blend-mode: screen;
+      will-change: transform, opacity;
+    }
+    .nebula-1 {
+      width: 70vw; height: 70vw; top: -20vw; left: -15vw;
+      background: radial-gradient(circle, rgba(88,28,220,.22) 0%, rgba(50,10,140,.10) 50%, transparent 75%);
+      animation: nebula-drift-1 28s ease-in-out infinite;
+    }
+    .nebula-2 {
+      width: 60vw; height: 60vw; top: 30vh; right: -20vw;
+      background: radial-gradient(circle, rgba(110,20,200,.18) 0%, rgba(60,5,120,.08) 55%, transparent 78%);
+      animation: nebula-drift-2 35s ease-in-out infinite;
+    }
+    .nebula-3 {
+      width: 50vw; height: 50vw; bottom: -10vh; left: 20vw;
+      background: radial-gradient(circle, rgba(70,10,170,.15) 0%, rgba(30,5,90,.06) 55%, transparent 80%);
+      animation: nebula-drift-3 42s ease-in-out infinite;
+    }
+
+    .lumi { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+    .lumi-1 {
+      width: 40vw; height: 25vw; top: 5vh; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(255,255,255,.055) 0%, rgba(200,180,255,.02) 50%, transparent 75%);
+      animation: lumi-pulse 18s ease-in-out infinite;
+    }
+    .lumi-2 {
+      width: 25vw; height: 18vw; top: 45vh; right: 10vw;
+      background: radial-gradient(ellipse, rgba(255,255,255,.04) 0%, transparent 70%);
+      animation: lumi-pulse 24s ease-in-out infinite reverse;
+    }
+    .lumi-3 {
+      width: 20vw; height: 15vw; bottom: 20vh; left: 8vw;
+      background: radial-gradient(ellipse, rgba(200,160,255,.05) 0%, transparent 70%);
+      animation: lumi-pulse 20s ease-in-out infinite 5s;
+    }
+
+    .bg-grain {
+      position: absolute; inset: 0; opacity: .028; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    .bg-seam {
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(140,80,255,.4) 30%, rgba(200,150,255,.7) 50%, rgba(140,80,255,.4) 70%, transparent 100%);
+      box-shadow: 0 0 60px 8px rgba(160,80,255,.15);
+    }
+
+    /* ─────────────────────────────────────────
+       STAR CANVAS
+    ───────────────────────────────────────── */
+    #star-canvas {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    }
+
+    /* ─────────────────────────────────────────
+       PAGE SHELL
+    ───────────────────────────────────────── */
+    .page-404 {
+      position: relative; z-index: 2;
+      min-height: 100vh; min-height: 100dvh; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTENT BLOCK
+    ───────────────────────────────────────── */
+    .c-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; max-width: 600px; width: 100%;
+      opacity: 0; transform: translateY(30px);
+      transition:
+        opacity  .9s cubic-bezier(.16, 1, .3, 1),
+        transform .9s cubic-bezier(.16, 1, .3, 1);
+    }
+    .c-wrap.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─────────────────────────────────────────
+       EYEBROW
+    ───────────────────────────────────────── */
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(9px, 1.5vw, 11.5px);
+      font-weight: 400;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    /* ─────────────────────────────────────────
+       404 NUMBER  — signature element
+    ───────────────────────────────────────── */
+    .num404 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(88px, 20vw, 200px);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: .03em;
+      /* Gold → violet gradient fill */
+      background: linear-gradient(145deg,
+        #f5df80 0%,
+        #e2ccff 26%,
+        #9b59f7 52%,
+        #c4a0ff 74%,
+        #d4af37 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      filter:
+        drop-shadow(0 0 38px rgba(155, 89, 247, .50))
+        drop-shadow(0 0 76px rgba(155, 89, 247, .20));
+      animation: num-breathe 5.5s ease-in-out infinite;
+      user-select: none;
+      margin-bottom: 4px;
+    }
+
+    /* ─────────────────────────────────────────
+       TRISHUL DIVIDER
+    ───────────────────────────────────────── */
+    .trishul-wrap {
+      margin: 24px 0 28px;
+      animation: trishul-pulse 4.5s ease-in-out infinite;
+    }
+    .trishul-wrap svg {
+      width: clamp(30px, 5.2vw, 50px); height: auto;
+      filter:
+        drop-shadow(0 0 10px rgba(155, 89, 247, .95))
+        drop-shadow(0 0 24px rgba(155, 89, 247, .38));
+    }
+
+    /* ─────────────────────────────────────────
+       HEADING
+    ───────────────────────────────────────── */
+    .h-main {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(16px, 2.8vw, 25px);
+      font-weight: 600;
+      letter-spacing: .05em;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+
+    /* ─────────────────────────────────────────
+       SUBTEXT
+    ───────────────────────────────────────── */
+    .sub {
+      font-size: clamp(13px, 1.65vw, 15px);
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 390px;
+      margin-bottom: 40px;
+    }
+
+    /* ─────────────────────────────────────────
+       ACTION BUTTONS
+    ───────────────────────────────────────── */
+    .actions {
+      display: flex; flex-direction: column; gap: 11px;
+      width: 100%; max-width: 320px;
+      margin-bottom: 44px;
+    }
+
+    /* Shared base */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 22px; border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      letter-spacing: .025em;
+      transition:
+        transform  .20s cubic-bezier(.34, 1.56, .64, 1),
+        box-shadow .22s ease,
+        background .22s ease,
+        color      .22s ease;
+    }
+    .btn:hover  { transform: translateY(-2px) scale(1.025); }
+    .btn:active { transform: translateY(0)    scale(.975); }
+
+    /* Primary — solid violet */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet) 0%, var(--violet-sat) 100%);
+      color: #f0eaff;
+      box-shadow: 0 4px 20px rgba(91, 31, 200, .48), 0 0 0 1px rgba(155, 89, 247, .32);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 30px rgba(91, 31, 200, .64), 0 0 0 1px rgba(155, 89, 247, .52);
+    }
+
+    /* Secondary — glass */
+    .btn-secondary {
+      background: rgba(91, 31, 200, .14);
+      color: #d8c8ff;
+      box-shadow: 0 2px 14px rgba(91, 31, 200, .18), 0 0 0 1px rgba(155, 89, 247, .22);
+    }
+    .btn-secondary:hover {
+      background: rgba(91, 31, 200, .26);
+      box-shadow: 0 6px 22px rgba(91, 31, 200, .36), 0 0 0 1px rgba(155, 89, 247, .42);
+    }
+
+    /* Ghost — text link */
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px; font-weight: 400;
+      padding: 8px 14px;
+      box-shadow: none;
+    }
+    .btn-ghost:hover  { color: #c4a8ff; transform: none; }
+    .btn-ghost:active { transform: none; }
+
+    /* ─────────────────────────────────────────
+       SIGNATURE
+    ───────────────────────────────────────── */
+    .signature {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(12px, 1.7vw, 14px);
+      font-weight: 400;
+      letter-spacing: .14em;
+      color: var(--text-muted);
+    }
+
+    /* ─────────────────────────────────────────
+       KEYFRAMES
+    ───────────────────────────────────────── */
+    @keyframes nebula-drift-1 {
+      0%   { transform: translate(0, 0)       scale(1);    }
+      33%  { transform: translate(4vw, 3vh)   scale(1.05); }
+      66%  { transform: translate(-2vw, 5vh)  scale(.97);  }
+      100% { transform: translate(0, 0)       scale(1);    }
+    }
+    @keyframes nebula-drift-2 {
+      0%   { transform: translate(0, 0)        scale(1);    }
+      40%  { transform: translate(-5vw, -4vh)  scale(1.06); }
+      70%  { transform: translate(3vw, 2vh)    scale(.96);  }
+      100% { transform: translate(0, 0)        scale(1);    }
+    }
+    @keyframes nebula-drift-3 {
+      0%   { transform: translate(0, 0)       scale(1);    }
+      30%  { transform: translate(3vw, -3vh)  scale(1.04); }
+      60%  { transform: translate(-4vw, 4vh)  scale(1.02); }
+      100% { transform: translate(0, 0)       scale(1);    }
+    }
+    @keyframes lumi-pulse {
+      0%, 100% { opacity: .7; }
+      50%       { opacity: 1;  }
+    }
+    @keyframes num-breathe {
+      0%, 100% {
+        filter:
+          drop-shadow(0 0 38px rgba(155, 89, 247, .50))
+          drop-shadow(0 0 76px rgba(155, 89, 247, .20));
+      }
+      50% {
+        filter:
+          drop-shadow(0 0 58px rgba(155, 89, 247, .70))
+          drop-shadow(0 0 100px rgba(155, 89, 247, .30))
+          drop-shadow(0 0 20px rgba(212, 175, 55, .22));
+      }
+    }
+    @keyframes trishul-pulse {
+      0%, 100% { opacity: .88; }
+      50%       { opacity: 1;   }
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .actions  { max-width: 100%; }
+      .page-404 { padding: 32px 20px; }
+    }
+
+    /* ─────────────────────────────────────────
+       REDUCED MOTION
+    ───────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      .c-wrap { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ BACKGROUND ══ -->
+<div class="bg-root">
+  <div class="bg-base"></div>
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+  <div class="lumi lumi-1"></div>
+  <div class="lumi lumi-2"></div>
+  <div class="lumi lumi-3"></div>
+  <div class="bg-grain"></div>
+  <div class="bg-seam"></div>
+</div>
+
+<!-- ══ STAR FIELD ══ -->
+<canvas id="star-canvas" aria-hidden="true"></canvas>
+
+<!-- ══ MAIN ══ -->
+<main class="page-404">
+  <div class="c-wrap" id="cWrap">
+
+    <p class="eyebrow">ॐ &ensp; Page Not Found &ensp; ॐ</p>
+
+    <h1 class="num404" aria-label="Error 404">404</h1>
+
+    <!-- ══ TRISHUL (Shiva's trident) ══ -->
+    <div class="trishul-wrap" aria-hidden="true">
+      <svg viewBox="0 0 80 136" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tg" x1="40" y1="0" x2="40" y2="136" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#f5df80"/>
+            <stop offset="30%"  stop-color="#c8a4ff"/>
+            <stop offset="68%"  stop-color="#9b59f7"/>
+            <stop offset="100%" stop-color="#5520b0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Center prong (filled spear) -->
+        <path d="M40 4 L36.5 46 L40 52 L43.5 46 Z" fill="url(#tg)"/>
+
+        <!-- Left curved prong -->
+        <path d="M36.5 46 C31 38 21 26 11 9"
+              stroke="url(#tg)" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Right curved prong -->
+        <path d="M43.5 46 C49 38 59 26 69 9"
+              stroke="url(#tg)" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Junction knob -->
+        <circle cx="40" cy="52" r="4.8" fill="url(#tg)"/>
+
+        <!-- Staff -->
+        <line x1="40" y1="56.8" x2="40" y2="124"
+              stroke="url(#tg)" stroke-width="4.5" stroke-linecap="round"/>
+
+        <!-- Upper crossbar -->
+        <line x1="24" y1="70" x2="56" y2="70"
+              stroke="url(#tg)" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Lower decorative bar -->
+        <line x1="30" y1="83" x2="50" y2="83"
+              stroke="url(#tg)" stroke-width="2.5" stroke-linecap="round" opacity=".58"/>
+
+        <!-- Base cap -->
+        <path d="M34 122 Q40 130 46 122"
+              stroke="url(#tg)" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+        <!-- Prong tip dots -->
+        <circle cx="40"  cy="4"   r="3.2" fill="#f5df80"/>
+        <circle cx="10.5" cy="8.5" r="2.5" fill="#d8c0ff" opacity=".9"/>
+        <circle cx="69.5" cy="8.5" r="2.5" fill="#d8c0ff" opacity=".9"/>
+      </svg>
+    </div>
+    <!-- ══ /TRISHUL ══ -->
+
+    <h2 class="h-main">This Path Leads to the Void</h2>
+
+    <p class="sub">
+      The page you're looking for doesn't exist. It may have been moved,
+      renamed, or the link may be incorrect.
+    </p>
+
+    <nav class="actions" aria-label="Recovery options">
+
+      <a href="https://alaukikgyanbhandar.pages.dev" class="btn btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Return to Homepage
+      </a>
+
+      <a href="https://alaukikgyanbhandar.pages.dev/epsdkdmsubtitles.html" class="btn btn-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="15" rx="2"/>
+          <polyline points="17 2 12 7 7 2"/>
+        </svg>
+        Devon Ke Dev Mahadev Subtitles
+      </a>
+
+      <!-- TODO: replace href with your actual contact email / page -->
+      <a href="mailto:ssmangalmurtiprojects@gmail.com" class="btn btn-ghost">
+        If you believe this is an error, let us know by pressing the email text → ssmangalmurtiprojects@gmail.com
+      </a>
+
+    </nav>
+
+    <p class="signature">Har Har Mahadev 🙏🏻</p>
+
+  </div>
+</main>
+
+<script>
+/* ── ENTRANCE ANIMATION ── */
+(function () {
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      document.getElementById('cWrap').classList.add('visible');
+    });
+  });
+}());
+
+/* ── STAR FIELD ── */
+(function () {
+  var canvas = document.getElementById('star-canvas');
+  var ctx    = canvas.getContext('2d');
+  var stars  = [];
+  var COUNT  = 160;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  /* Build star list once (color stored per star — no per-frame random) */
+  for (var i = 0; i < COUNT; i++) {
+    var h = 228 + Math.random() * 52;           /* blue–violet hue range */
+    stars.push({
+      x:     Math.random(),
+      y:     Math.random(),
+      r:     Math.random() * 1.1 + 0.2,
+      baseA: Math.random() * 0.50 + 0.10,
+      speed: Math.random() * 0.008 + 0.003,
+      phase: Math.random() * Math.PI * 2,
+      color: 'hsl(' + Math.round(h) + ',55%,90%)',
+    });
+  }
+
+  var t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    t++;
+    for (var j = 0; j < stars.length; j++) {
+      var s = stars[j];
+      var a = s.baseA * (0.42 + 0.58 * Math.sin(t * s.speed + s.phase));
+      ctx.globalAlpha = a;
+      ctx.fillStyle   = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}());
+</script>
+
+</body>
+</html>
